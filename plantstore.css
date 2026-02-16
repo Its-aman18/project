@@ -1,376 +1,780 @@
 /* ===================================================================
-   MAIN JAVASCRIPT - B.L VERDANTIX WEBSITE
-   Common JavaScript functions used across all pages
+   PLANT STORE PAGE SPECIFIC STYLES - B.L VERDANTIX
+   Styles specific to plantstore.html (E-commerce Plant Store)
    =================================================================== */
 
-// ===== HEADER SCROLL EFFECT =====
-window.addEventListener('scroll', function() {
-    const header = document.getElementById('header');
-    if (header) {
-        if (window.scrollY > 50) {
-            header.classList.add('scrolled');
-        } else {
-            header.classList.remove('scrolled');
-        }
-    }
-});
-
-// ===== MOBILE MENU TOGGLE =====
-const hamburger = document.getElementById('hamburger');
-const navMenu = document.getElementById('navMenu');
-const overlay = document.getElementById('overlay');
-
-if (hamburger && navMenu && overlay) {
-    hamburger.addEventListener('click', function() {
-        hamburger.classList.toggle('active');
-        navMenu.classList.toggle('active');
-        overlay.classList.toggle('active');
-    });
-
-    overlay.addEventListener('click', function() {
-        hamburger.classList.remove('active');
-        navMenu.classList.remove('active');
-        overlay.classList.remove('active');
-    });
-
-    // Close menu when clicking on nav links
-    const navLinks = navMenu.querySelectorAll('a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            hamburger.classList.remove('active');
-            navMenu.classList.remove('active');
-            overlay.classList.remove('active');
-        });
-    });
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-// ===== AI CHATBOT FUNCTIONALITY =====
-const aiChatButton = document.getElementById('aiChatButton');
-const aiChatWindow = document.getElementById('aiChatWindow');
-const aiCloseChat = document.getElementById('aiCloseChat');
-const aiChatInput = document.getElementById('aiChatInput');
-const aiSendBtn = document.getElementById('aiSendBtn');
-const aiChatMessages = document.getElementById('aiChatMessages');
-const aiTypingIndicator = document.getElementById('aiTypingIndicator');
-
-// Open chat window
-if (aiChatButton && aiChatWindow) {
-    aiChatButton.addEventListener('click', function() {
-        aiChatWindow.classList.add('active');
-        aiChatInput.focus();
-    });
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f7f5;
+    color: #333;
 }
 
-// Close chat window
-if (aiCloseChat && aiChatWindow) {
-    aiCloseChat.addEventListener('click', function() {
-        aiChatWindow.classList.remove('active');
-    });
+/* ===== HEADER ===== */
+header {
+    background: linear-gradient(135deg, #4a7f5f 0%, #68ab77 100%);
+    color: white;
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
-// Send message on button click
-if (aiSendBtn && aiChatInput) {
-    aiSendBtn.addEventListener('click', sendAIMessage);
+.top-bar {
+    background-color: #1e5a2e;
+    padding: 8px 0;
+    font-size: 13px;
+    text-align: center;
 }
 
-// Send message on Enter key
-if (aiChatInput) {
-    aiChatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendAIMessage();
-        }
-    });
+.header-main {
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-// Send AI Message Function
-function sendAIMessage() {
-    const message = aiChatInput.value.trim();
-    
-    if (message === '') return;
-    
-    // Add user message to chat
-    addMessageToChat('user', message);
-    
-    // Clear input
-    aiChatInput.value = '';
-    
-    // Show typing indicator
-    if (aiTypingIndicator) {
-        aiTypingIndicator.style.display = 'block';
-    }
-    
-    // Simulate bot response delay
-    setTimeout(function() {
-        // Hide typing indicator
-        if (aiTypingIndicator) {
-            aiTypingIndicator.style.display = 'none';
-        }
-        
-        // Get bot response
-        const botResponse = getAIResponse(message);
-        addMessageToChat('bot', botResponse);
-    }, 1500);
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-// Add message to chat
-function addMessageToChat(sender, message) {
-    if (!aiChatMessages) return;
-    
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `ai-message ${sender}`;
-    
-    const bubbleDiv = document.createElement('div');
-    bubbleDiv.className = 'ai-message-bubble';
-    
-    if (sender === 'bot') {
-        const avatar = document.createElement('span');
-        avatar.className = 'ai-bot-avatar';
-        avatar.textContent = '🌾';
-        bubbleDiv.appendChild(avatar);
-    }
-    
-    const textSpan = document.createElement('span');
-    textSpan.innerHTML = message.replace(/\n/g, '<br>');
-    bubbleDiv.appendChild(textSpan);
-    
-    messageDiv.appendChild(bubbleDiv);
-    aiChatMessages.appendChild(messageDiv);
-    
-    // Scroll to bottom
-    aiChatMessages.scrollTop = aiChatMessages.scrollHeight;
+.logo span {
+    color: #a8e6a3;
 }
 
-// Get AI Response (Hindi responses)
-function getAIResponse(userMessage) {
-    const lowerMessage = userMessage.toLowerCase();
-    
-    // Greetings
-    if (lowerMessage.includes('नमस्ते') || lowerMessage.includes('हैलो') || lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
-        return 'नमस्ते! 🙏<br>मैं B.L Verdantix का AI सहायक हूँ।<br>मैं आपकी कैसे मदद कर सकता हूँ?';
-    }
-    
-    // Contact information
-    if (lowerMessage.includes('संपर्क') || lowerMessage.includes('contact') || lowerMessage.includes('फोन') || lowerMessage.includes('phone') || lowerMessage.includes('नंबर')) {
-        return '<div class="ai-contact-info"><strong>📞 संपर्क करें:</strong><br>फोन: +91 90585 45076<br><br><strong>📧 ईमेल:</strong><br>b.l.verdantix2026@gmail.com<br><br><strong>📍 पता:</strong><br>CCS University, Meerut</div>';
-    }
-    
-    // Services
-    if (lowerMessage.includes('सेवा') || lowerMessage.includes('service') || lowerMessage.includes('क्या करते') || lowerMessage.includes('what do')) {
-        return 'हम निम्नलिखित सेवाएं प्रदान करते हैं:<br><br>🌱 पौधों की पहचान और रोग निदान<br>💧 सिंचाई समाधान<br>📊 कृषि कैलकुलेटर<br>🗺️ GPS भूमि माप<br>🌿 पौधों की ऑनलाइन बिक्री<br><br>अधिक जानकारी के लिए हमसे संपर्क करें!';
-    }
-    
-    // Plant identification
-    if (lowerMessage.includes('पौधा') || lowerMessage.includes('plant') || lowerMessage.includes('पहचान') || lowerMessage.includes('identify') || lowerMessage.includes('स्कैन') || lowerMessage.includes('scan')) {
-        return 'हमारी AI-powered Plant Scanner से आप:<br><br>📸 पौधों की तुरंत पहचान कर सकते हैं<br>🔬 रोगों का निदान कर सकते हैं<br>💊 उपचार की सलाह ले सकते हैं<br><br>17,000+ पौधों की प्रजातियां<br>98% सटीकता दर<br><br>अभी scan करें!';
-    }
-    
-    // Calculators
-    if (lowerMessage.includes('कैलकुलेटर') || lowerMessage.includes('calculator') || lowerMessage.includes('गणना') || lowerMessage.includes('calculate')) {
-        return 'हमारे पास विभिन्न कृषि कैलकुलेटर हैं:<br><br>🌾 Fertilizer Calculator<br>💧 Irrigation Calculator<br>📊 Bulk Density Calculator<br>🌳 Tree Dose Calculator<br>📏 Area Converter<br>🗺️ GPS Land Calculator<br><br>Services पेज पर जाएं!';
-    }
-    
-    // Store/Shop
-    if (lowerMessage.includes('दुकान') || lowerMessage.includes('store') || lowerMessage.includes('खरीद') || lowerMessage.includes('buy') || lowerMessage.includes('shop')) {
-        return 'हमारे Plant Store में उपलब्ध है:<br><br>🌺 Flowering Plants<br>🏠 Indoor Plants<br>🌿 Medicinal Plants<br>🎁 Combo Packs<br>🌱 Seeds<br>🎨 Garden Decor<br><br>✅ Free Delivery ₹499+ पर<br>💰 Cash on Delivery उपलब्ध<br><br>Shop Now!';
-    }
-    
-    // Price/Cost
-    if (lowerMessage.includes('कीमत') || lowerMessage.includes('price') || lowerMessage.includes('cost') || lowerMessage.includes('दाम')) {
-        return 'हमारे पौधों की कीमतें बहुत उचित हैं:<br><br>🌱 ₹99 से शुरू<br>🎁 Combo Packs में छूट<br>🚚 Free Delivery ₹499+<br><br>सभी कीमतों के लिए Plant Store देखें!';
-    }
-    
-    // Location/Address
-    if (lowerMessage.includes('कहाँ') || lowerMessage.includes('where') || lowerMessage.includes('पता') || lowerMessage.includes('address') || lowerMessage.includes('location')) {
-        return '📍 हमारा पता:<br><br>CCS University<br>Meerut, Uttar Pradesh<br>India<br><br>हम निम्नलिखित राज्यों में सक्रिय हैं:<br>• Uttar Pradesh<br>• Punjab<br>• Haryana<br>• Uttarakhand<br>• Bihar';
-    }
-    
-    // Working hours
-    if (lowerMessage.includes('समय') || lowerMessage.includes('time') || lowerMessage.includes('खुला') || lowerMessage.includes('open') || lowerMessage.includes('बंद') || lowerMessage.includes('close')) {
-        return '⏰ कार्य समय:<br><br>सोमवार - शनिवार:<br>9:00 AM - 6:00 PM<br><br>रविवार: बंद<br><br>24/7 ऑनलाइन सहायता उपलब्ध!';
-    }
-    
-    // Help/Support
-    if (lowerMessage.includes('मदद') || lowerMessage.includes('help') || lowerMessage.includes('सहायता') || lowerMessage.includes('support')) {
-        return 'मैं आपकी मदद के लिए यहाँ हूँ! 😊<br><br>आप मुझसे पूछ सकते हैं:<br><br>• हमारी सेवाओं के बारे में<br>• पौधों की जानकारी<br>• संपर्क विवरण<br>• कीमतें और ऑफर<br>• कैलकुलेटर की जानकारी<br><br>कुछ भी पूछें!';
-    }
-    
-    // Thank you
-    if (lowerMessage.includes('धन्यवाद') || lowerMessage.includes('thanks') || lowerMessage.includes('thank you') || lowerMessage.includes('शुक्रिया')) {
-        return 'आपका स्वागत है! 🙏<br><br>यदि आपको और कोई सहायता चाहिए तो बेझिझक पूछें।<br><br>B.L Verdantix के साथ जुड़े रहें! 🌿';
-    }
-    
-    // About company
-    if (lowerMessage.includes('के बारे में') || lowerMessage.includes('about') || lowerMessage.includes('कंपनी') || lowerMessage.includes('company')) {
-        return 'B.L Verdantix Agri Technologies 🌾<br><br>हम AI-powered कृषि समाधान प्रदान करते हैं:<br><br>✅ 2000 से स्थापित<br>✅ 10,000+ किसान सेवित<br>✅ 5 राज्यों में सक्रिय<br>✅ 24/7 तकनीकी सहायता<br><br>हमारा उद्देश्य: तकनीक से कृषि को सशक्त बनाना! 💪';
-    }
-    
-    // Default response
-    return 'धन्यवाद आपके संदेश के लिए! 🙏<br><br>कृपया अधिक जानकारी के लिए हमसे संपर्क करें:<br><br>📞 +91 90585 45076<br>📧 b.l.verdantix2026@gmail.com<br><br>या आप हमारी सेवाओं, पौधों, कीमतों, या संपर्क जानकारी के बारे में पूछ सकते हैं।';
+.search-bar {
+    flex: 1;
+    max-width: 500px;
+    margin: 0 30px;
+    position: relative;
 }
 
-// ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        const href = this.getAttribute('href');
-        if (href !== '#' && href !== '') {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    });
-});
-
-// ===== FADE IN ON SCROLL ANIMATION =====
-function fadeInOnScroll() {
-    const elements = document.querySelectorAll('.fade-in');
-    
-    elements.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const elementBottom = element.getBoundingClientRect().bottom;
-        
-        if (elementTop < window.innerHeight && elementBottom > 0) {
-            element.classList.add('visible');
-        }
-    });
+.search-bar input {
+    width: 100%;
+    padding: 12px 45px 12px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 15px;
 }
 
-// Run on scroll and on load
-window.addEventListener('scroll', fadeInOnScroll);
-window.addEventListener('load', fadeInOnScroll);
-
-// ===== LAZY LOADING IMAGES =====
-if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
-                }
-                observer.unobserve(img);
-            }
-        });
-    });
-    
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
-
-// ===== CONSOLE MESSAGE =====
-console.log('%c🌿 B.L Verdantix Agri Technologies', 'color: #2e7d32; font-size: 20px; font-weight: bold;');
-console.log('%cAI-Powered Agriculture Solutions', 'color: #66bb6a; font-size: 14px;');
-console.log('%c🌾 Empowering Farmers with Technology', 'color: #388e3c; font-size: 12px;');
-
-// ===== BACK TO TOP BUTTON =====
-const backToTopBtn = document.createElement('button');
-backToTopBtn.innerHTML = '↑';
-backToTopBtn.className = 'back-to-top';
-backToTopBtn.style.cssText = `
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #2e7d32, #66bb6a);
+.search-bar button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #2d7a3e;
     color: white;
     border: none;
-    border-radius: 50%;
-    font-size: 24px;
+    padding: 8px 20px;
+    border-radius: 20px;
     cursor: pointer;
+}
+
+.header-icons {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.icon-btn:hover {
+    transform: translateY(-2px);
+}
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #ff6b6b;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* ===== NAVIGATION ===== */
+nav {
+    background-color: rgba(255,255,255,0.1);
+    padding: 12px 5%;
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 15px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #a8e6a3;
+}
+
+/* ===== HERO BANNER ===== */
+.hero {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    padding: 60px 5%;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 42px;
+    color: #2d7a3e;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.hero-cta {
+    background: #2d7a3e;
+    color: white;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.hero-cta:hover {
+    background: #1e5a2e;
+    transform: translateY(-2px);
+}
+
+/* ===== CONTAINER ===== */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 5%;
+}
+
+/* ===== FILTERS ===== */
+.filters {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.filter-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.filter-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.filter-group select {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ===== PRODUCT GRID ===== */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 18px;
+}
+
+.product-category {
+    color: #2e7d32;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.product-name {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #2d3436;
+}
+
+.product-description {
+    font-size: 13px;
+    color: #636e72;
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+.product-price {
+    font-size: 22px;
+    font-weight: bold;
+    color: #2d7a3e;
+    margin-bottom: 12px;
+}
+
+.product-price span {
+    font-size: 14px;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 8px;
+}
+
+.add-to-cart {
+    width: 100%;
+    background: #2d7a3e;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.add-to-cart:hover {
+    background: #1e5a2e;
+}
+
+/* ===== MODAL ===== */
+.modal {
     display: none;
-    z-index: 999;
-    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4);
-    transition: all 0.3s ease;
-`;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+}
 
-document.body.appendChild(backToTopBtn);
+.modal.active {
+    display: flex;
+}
 
-window.addEventListener('scroll', function() {
-    if (window.scrollY > 300) {
-        backToTopBtn.style.display = 'block';
-    } else {
-        backToTopBtn.style.display = 'none';
+.modal-content {
+    background: white;
+    padding: 0;
+    border-radius: 12px;
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: white;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* ===== CART MODAL ===== */
+.cart-items {
+    padding: 20px;
+}
+
+.cart-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.cart-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cart-item-info {
+    flex: 1;
+}
+
+.cart-item-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.cart-item-price {
+    color: #2d7a3e;
+    font-weight: bold;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.quantity-btn {
+    background: #f0f0f0;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.remove-item {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cart-summary {
+    padding: 20px;
+    background: #f8f9fa;
+    border-top: 2px solid #eee;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.summary-total {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2d7a3e;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: #2d7a3e;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+/* ===== CHECKOUT FORM ===== */
+.checkout-form {
+    padding: 30px;
+}
+
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-section h3 {
+    margin-bottom: 15px;
+    color: #2d7a3e;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.payment-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.payment-option {
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.payment-option.selected {
+    border-color: #2d7a3e;
+    background: #e8f5e9;
+}
+
+.place-order-btn {
+    width: 100%;
+    background: #2d7a3e;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ===== ORDER TRACKING ===== */
+.tracking-container {
+    padding: 30px;
+}
+
+.tracking-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.tracking-input input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.track-btn {
+    background: #2d7a3e;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.order-status {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.status-timeline {
+    position: relative;
+    padding-left: 40px;
+}
+
+.status-step {
+    position: relative;
+    padding-bottom: 30px;
+}
+
+.status-step:last-child {
+    padding-bottom: 0;
+}
+
+.status-step::before {
+    content: '';
+    position: absolute;
+    left: -32px;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #ddd;
+}
+
+.status-step.completed::before {
+    background: #2d7a3e;
+}
+
+.status-step.active::before {
+    background: #ffa500;
+    box-shadow: 0 0 0 4px rgba(255,165,0,0.2);
+}
+
+.status-step::after {
+    content: '';
+    position: absolute;
+    left: -24px;
+    top: 16px;
+    width: 2px;
+    height: calc(100% - 16px);
+    background: #ddd;
+}
+
+.status-step:last-child::after {
+    display: none;
+}
+
+.status-step.completed::after {
+    background: #2d7a3e;
+}
+
+.cancel-order-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+/* ===== MY ORDERS ===== */
+.orders-list {
+    padding: 20px;
+}
+
+.order-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.order-id {
+    font-weight: bold;
+}
+
+.order-status-badge {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.order-status-badge.delivered {
+    background: #d4edda;
+    color: #155724;
+}
+
+.order-status-badge.processing {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.order-status-badge.shipped {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background: #1e5a2e;
+    color: white;
+    padding: 40px 5%;
+    margin-top: 60px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.footer-section h3 {
+    margin-bottom: 15px;
+    color: #a8e6a3;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 8px;
+}
+
+.footer-section a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .header-main {
+        flex-direction: column;
+        gap: 15px;
     }
-});
 
-backToTopBtn.addEventListener('click', function() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-});
-
-backToTopBtn.addEventListener('mouseenter', function() {
-    this.style.transform = 'translateY(-5px) scale(1.1)';
-    this.style.boxShadow = '0 6px 16px rgba(46, 125, 50, 0.5)';
-});
-
-backToTopBtn.addEventListener('mouseleave', function() {
-    this.style.transform = 'translateY(0) scale(1)';
-    this.style.boxShadow = '0 4px 12px rgba(46, 125, 50, 0.4)';
-});
-
-// ===== PREVENT EMPTY FORM SUBMISSIONS =====
-document.querySelectorAll('form').forEach(form => {
-    form.addEventListener('submit', function(e) {
-        const requiredFields = form.querySelectorAll('[required]');
-        let isValid = true;
-        
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.style.borderColor = '#e74c3c';
-                
-                setTimeout(() => {
-                    field.style.borderColor = '';
-                }, 2000);
-            }
-        });
-        
-        if (!isValid) {
-            e.preventDefault();
-            alert('कृपया सभी आवश्यक फ़ील्ड भरें।\nPlease fill all required fields.');
-        }
-    });
-});
-
-// ===== INITIALIZE EVERYTHING ON DOM LOAD =====
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('B.L Verdantix website loaded successfully! 🌿');
-    
-    // Run fade in animation on page load
-    fadeInOnScroll();
-    
-    // Focus on first input in forms
-    const firstInput = document.querySelector('form input:not([type="hidden"])');
-    if (firstInput) {
-        firstInput.focus();
+    .search-bar {
+        margin: 0;
+        max-width: 100%;
     }
-});
 
-// ===== PERFORMANCE MONITORING =====
-window.addEventListener('load', function() {
-    if (window.performance && window.performance.timing) {
-        const loadTime = window.performance.timing.loadEventEnd - window.performance.timing.navigationStart;
-        console.log(`⚡ Page loaded in ${loadTime}ms`);
+    .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
     }
-});
 
-// ===== ERROR HANDLING =====
-window.addEventListener('error', function(e) {
-    console.error('Error occurred:', e.error);
-});
+    .form-row {
+        grid-template-columns: 1fr;
+    }
 
-// ===== EXPORT FUNCTIONS FOR OTHER SCRIPTS =====
-window.BLVerdantix = {
-    addMessageToChat: addMessageToChat,
-    getAIResponse: getAIResponse,
-    sendAIMessage: sendAIMessage
-};
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .payment-methods {
+        grid-template-columns: 1fr;
+    }
+
+    nav {
+        gap: 15px;
+        padding: 10px 5%;
+    }
+
+    nav a {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 22px;
+    }
+
+    .hero {
+        padding: 40px 5%;
+    }
+
+    .hero h1 {
+        font-size: 24px;
+    }
+
+    .hero p {
+        font-size: 16px;
+    }
+
+    .product-card {
+        border-radius: 8px;
+    }
+
+    .product-image {
+        height: 200px;
+    }
+
+    .product-info {
+        padding: 12px;
+    }
+
+    .modal-content {
+        width: 95%;
+    }
+
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .quantity-control {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
